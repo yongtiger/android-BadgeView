@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         seekBar_numbersize = (SeekBar) findViewById(R.id.seekBar_numbersize);
         swicth_exact = (Switch) findViewById(R.id.swicth_exact);
         swicth_draggable = (Switch) findViewById(R.id.swicth_draggable);
-        swicth_shadow = (Switch) findViewById(R.id.swicth_shadow);
+        swicth_shadow = (Switch) findViewById(R.id.switch_shadow);
     }
 
     private void initListener() {
