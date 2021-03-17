@@ -2,6 +2,8 @@ package cc.brainbook.android.badgeview;
 
 import android.graphics.PointF;
 
+import androidx.annotation.NonNull;
+
 import java.util.List;
 
 /**
@@ -23,7 +25,7 @@ public class MathUtil {
         return 360 * (radian / CIRCLE_RADIAN);
     }
 
-    public static int getQuadrant(PointF p, PointF center) {
+    public static int getQuadrant(@NonNull PointF p, @NonNull PointF center) {
         if (p.x > center.x) {
             if (p.y > center.y) {
                 return 4;
@@ -40,7 +42,7 @@ public class MathUtil {
         return -1;
     }
 
-    public static float getPointDistance(PointF p1, PointF p2) {
+    public static float getPointDistance(@NonNull PointF p1, @NonNull PointF p2) {
         return (float) Math.sqrt(Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2));
     }
 

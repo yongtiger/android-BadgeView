@@ -8,6 +8,8 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PointF;
 
+import androidx.annotation.NonNull;
+
 import java.lang.ref.WeakReference;
 import java.util.Random;
 
@@ -18,8 +20,8 @@ import java.util.Random;
  */
 
 public class BadgeAnimator extends ValueAnimator {
-    private BitmapFragment[][] mFragments;
-    private WeakReference<QBadgeView> mWeakBadge;
+    private final BitmapFragment[][] mFragments;
+    private final WeakReference<QBadgeView> mWeakBadge;
 
     public BadgeAnimator(Bitmap badgeBitmap, PointF center, QBadgeView badge) {
         mWeakBadge = new WeakReference<>(badge);
@@ -58,8 +60,8 @@ public class BadgeAnimator extends ValueAnimator {
         }
     }
 
-
-    private BitmapFragment[][] getFragments(Bitmap badgeBitmap, PointF center) {
+    @NonNull
+    private BitmapFragment[][] getFragments(@NonNull Bitmap badgeBitmap, @NonNull PointF center) {
         int width = badgeBitmap.getWidth();
         int height = badgeBitmap.getHeight();
         float fragmentSize = Math.min(width, height) / 6f;
@@ -81,7 +83,7 @@ public class BadgeAnimator extends ValueAnimator {
         return fragments;
     }
 
-    private class BitmapFragment {
+    private static class BitmapFragment {
         Random random;
         float x;
         float y;
@@ -97,7 +99,7 @@ public class BadgeAnimator extends ValueAnimator {
             random = new Random();
         }
 
-        public void updata(float value, Canvas canvas) {
+        public void updata(float value, @NonNull Canvas canvas) {
             paint.setColor(color);
             x = x + 0.1f * random.nextInt(maxSize) * (random.nextFloat() - 0.5f);
             y = y + 0.1f * random.nextInt(maxSize) * (random.nextFloat() - 0.5f);

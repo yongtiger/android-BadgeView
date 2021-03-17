@@ -25,6 +25,8 @@ import android.view.ViewParent;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
+import androidx.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -145,7 +147,7 @@ public class QBadgeView extends View implements Badge {
             ((ViewGroup) getParent()).removeView(this);
         }
         ViewParent targetParent = targetView.getParent();
-        if (targetParent != null && targetParent instanceof ViewGroup) {
+        if (targetParent instanceof ViewGroup) {
             mTargetView = targetView;
             if (targetParent instanceof BadgeContainer) {
                 ((BadgeContainer) targetParent).addView(this);
@@ -179,14 +181,14 @@ public class QBadgeView extends View implements Badge {
         if (mActivityRoot == null) findViewRoot(mTargetView);
     }
 
-    private void findViewRoot(View view) {
+    private void findViewRoot(@NonNull View view) {
         mActivityRoot = (ViewGroup) view.getRootView();
         if (mActivityRoot == null) {
             findActivityRoot(view);
         }
     }
 
-    private void findActivityRoot(View view) {
+    private void findActivityRoot(@NonNull View view) {
         if (view.getParent() != null && view.getParent() instanceof View) {
             findActivityRoot((View) view.getParent());
         } else if (view instanceof ViewGroup) {
@@ -195,7 +197,7 @@ public class QBadgeView extends View implements Badge {
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event) {
+    public boolean onTouchEvent(@NonNull MotionEvent event) {
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_POINTER_DOWN:
@@ -505,8 +507,7 @@ public class QBadgeView extends View implements Badge {
     }
 
     private void findBadgeCenter() {
-        float rectWidth = mBadgeTextRect.height() > mBadgeTextRect.width() ?
-                mBadgeTextRect.height() : mBadgeTextRect.width();
+        float rectWidth = Math.max(mBadgeTextRect.height(), mBadgeTextRect.width());
         switch (mBadgeGravity) {
             case Gravity.START | Gravity.TOP:
                 mBadgeCenter.x = mGravityOffsetX + mBadgePadding + rectWidth / 2f;
@@ -828,7 +829,7 @@ public class QBadgeView extends View implements Badge {
         return null;
     }
 
-    private class BadgeContainer extends ViewGroup {
+    private static class BadgeContainer extends ViewGroup {
 
         @Override
         protected void dispatchRestoreInstanceState(SparseArray<Parcelable> container) {
