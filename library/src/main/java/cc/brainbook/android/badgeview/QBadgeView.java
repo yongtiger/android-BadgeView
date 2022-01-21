@@ -26,9 +26,12 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
+import androidx.core.text.TextUtilsCompat;
+import androidx.core.view.ViewCompat;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * @author chqiu
@@ -36,6 +39,8 @@ import java.util.List;
  */
 
 public class QBadgeView extends View implements Badge {
+    protected boolean isRtl;
+
     protected int mColorBackground;
     protected int mColorBackgroundBorder;
     protected int mColorBadgeText;
@@ -102,6 +107,8 @@ public class QBadgeView extends View implements Badge {
     }
 
     private void init() {
+        isRtl = TextUtilsCompat.getLayoutDirectionFromLocale(Locale.getDefault()) == ViewCompat.LAYOUT_DIRECTION_RTL;
+
         setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         mBadgeTextRect = new RectF();
         mBadgeBackgroundRect = new RectF();
@@ -510,19 +517,35 @@ public class QBadgeView extends View implements Badge {
         float rectWidth = Math.max(mBadgeTextRect.height(), mBadgeTextRect.width());
         switch (mBadgeGravity) {
             case Gravity.START | Gravity.TOP:
-                mBadgeCenter.x = mGravityOffsetX + mBadgePadding + rectWidth / 2f;
+                if (isRtl) {
+                    mBadgeCenter.x = mWidth - (mGravityOffsetX + mBadgePadding + rectWidth / 2f);
+                } else {
+                    mBadgeCenter.x = mGravityOffsetX + mBadgePadding + rectWidth / 2f;
+                }
                 mBadgeCenter.y = mGravityOffsetY + mBadgePadding + mBadgeTextRect.height() / 2f;
                 break;
             case Gravity.START | Gravity.BOTTOM:
-                mBadgeCenter.x = mGravityOffsetX + mBadgePadding + rectWidth / 2f;
+                if (isRtl) {
+                    mBadgeCenter.x = mWidth - (mGravityOffsetX + mBadgePadding + rectWidth / 2f);
+                } else {
+                    mBadgeCenter.x = mGravityOffsetX + mBadgePadding + rectWidth / 2f;
+                }
                 mBadgeCenter.y = mHeight - (mGravityOffsetY + mBadgePadding + mBadgeTextRect.height() / 2f);
                 break;
             case Gravity.END | Gravity.TOP:
-                mBadgeCenter.x = mWidth - (mGravityOffsetX + mBadgePadding + rectWidth / 2f);
+                if (isRtl) {
+                    mBadgeCenter.x = mGravityOffsetX + mBadgePadding + rectWidth / 2f;
+                } else {
+                    mBadgeCenter.x = mWidth - (mGravityOffsetX + mBadgePadding + rectWidth / 2f);
+                }
                 mBadgeCenter.y = mGravityOffsetY + mBadgePadding + mBadgeTextRect.height() / 2f;
                 break;
             case Gravity.END | Gravity.BOTTOM:
-                mBadgeCenter.x = mWidth - (mGravityOffsetX + mBadgePadding + rectWidth / 2f);
+                if (isRtl) {
+                    mBadgeCenter.x = mGravityOffsetX + mBadgePadding + rectWidth / 2f;
+                } else {
+                    mBadgeCenter.x = mWidth - (mGravityOffsetX + mBadgePadding + rectWidth / 2f);
+                }
                 mBadgeCenter.y = mHeight - (mGravityOffsetY + mBadgePadding + mBadgeTextRect.height() / 2f);
                 break;
             case Gravity.CENTER:
@@ -538,11 +561,19 @@ public class QBadgeView extends View implements Badge {
                 mBadgeCenter.y = mHeight - (mGravityOffsetY + mBadgePadding + mBadgeTextRect.height() / 2f);
                 break;
             case Gravity.CENTER | Gravity.START:
-                mBadgeCenter.x = mGravityOffsetX + mBadgePadding + rectWidth / 2f;
+                if (isRtl) {
+                    mBadgeCenter.x = mWidth - (mGravityOffsetX + mBadgePadding + rectWidth / 2f);
+                } else {
+                    mBadgeCenter.x = mGravityOffsetX + mBadgePadding + rectWidth / 2f;
+                }
                 mBadgeCenter.y = mHeight / 2f;
                 break;
             case Gravity.CENTER | Gravity.END:
-                mBadgeCenter.x = mWidth - (mGravityOffsetX + mBadgePadding + rectWidth / 2f);
+                if (isRtl) {
+                    mBadgeCenter.x = mGravityOffsetX + mBadgePadding + rectWidth / 2f;
+                } else {
+                    mBadgeCenter.x = mWidth - (mGravityOffsetX + mBadgePadding + rectWidth / 2f);
+                }
                 mBadgeCenter.y = mHeight / 2f;
                 break;
         }
